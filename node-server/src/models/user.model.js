@@ -7,7 +7,7 @@ module.exports = mongoose.model(
       name: { type: String, required: true },
       email: { type: String, required: true, unique: true },
       password: { type: String, required: true },
-      logged_in: { type: Date, default: Date.now() },
+      last_logged: { type: Date, default: Date.now() },
     },
     { timestamps: true }
   )

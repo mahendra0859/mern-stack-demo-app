@@ -1,26 +1,34 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import Loader from "react-loader-spinner";
 
-function App() {
+import { PageNotFound, Register, Signin, Dashboard } from "./pages";
+import { Toaster } from "./componets";
+
+const mapStateToProps = (state) => ({ ...state["authReducer"] });
+
+function App({ loading }) {
+  if (loading) {
+    return (
+      <div className="container main-container">
+        <Loader type="Grid" color="#000000" height={100} width={100} />
+      </div>
+    );
+  }
+
   return (
-    <div className="App container">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/register" component={Register} />
+        <Route path="/signin" component={Signin} />
+        <Route exact path="/" component={Dashboard} />
+        <Route component={PageNotFound} />
+      </Switch>
+      <Toaster />
+    </Router>
   );
 }
 
-export default App;
+export default connect(mapStateToProps)(App);
